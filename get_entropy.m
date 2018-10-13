@@ -18,19 +18,19 @@ function [H,R] = get_entropy(besedilo, p)
 	end
 	if (p == 1)
     % compute letter pairs in text
-		pairs = [proc_besedilo, circshift(proc_besedilo, -1)];
+	pairs = [proc_besedilo, circshift(proc_besedilo, -1)];
     % remove pairs resulting from circshift functions use
     pairs = pairs(1:end-1, :);
     % get unique pairs and auxilliary vectors
-		[U, I, J] = unique(pairs, "rows");
+	[U, I, J] = unique(pairs, "rows");
     % compute number of occurances of pairs
-		num_pair = histc(J, [1:max(J)]);
+	num_pair = histc(J, [1:max(J)]);
     % compute probabilities of pairs
-		P = num_pair./length(J);
+	P = num_pair./length(J);
     % compute entropy of pairs
-	  H1 = -sum(P.*log2(P));
+	H1 = -sum(P.*log2(P));
     % get entropy of single letters - recusive call
-	  [H0, R0] = naloga1(besedilo, 0);
+	[H0, R0] = get_entropy(besedilo, 0);
     % compute conditional entropy
     H = H1 - H0;
     % compute conditional redundancy
@@ -50,8 +50,8 @@ function [H,R] = get_entropy(besedilo, p)
     % compute entropy of triplets
 	  H2 = -sum(P.*log2(P));
     % get entropy of pairs and single letters - recursive calls
-    [H1, R1] = naloga1(besedilo, 1);
-    [H0, R0] = naloga1(besedilo, 0);
+    [H1, R1] = get_entropy(besedilo, 1);
+    [H0, R0] = get_entropy(besedilo, 0);
     % compute conditional entropy
     H = H2 - (H1 + H0);
     % compute conditional redundancys
@@ -71,9 +71,9 @@ function [H,R] = get_entropy(besedilo, p)
     % compute entropy of triplets
 	  H3 = -sum(P.*log2(P));
     % get entropies for singletons, pairs and triplets
-    [H2, R2] = naloga1(besedilo, 2);
-    [H1, R1] = naloga1(besedilo, 1);
-    [H0, R0] = naloga1(besedilo, 0);
+    [H2, R2] = get_entropy(besedilo, 2);
+    [H1, R1] = get_entropy(besedilo, 1);
+    [H0, R0] = get_entropy(besedilo, 0);
     % compute conditional entropy
     H = H3 - (H1 + H2 + H0);
     % compute conditional redundancy
