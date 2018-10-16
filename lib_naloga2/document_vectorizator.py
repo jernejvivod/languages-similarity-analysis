@@ -12,7 +12,7 @@ def count_containing(results_dict, triplet):
 	counter = 0 		# Initialize counter.
 	for doc in results_dict.keys(): 		# Go over documents.
 		if triplet in set(results_dict[doc].keys()): 	# If triplet contained in unique set of triplets found in document,
-			counter +=1 								# increment counter.
+			counter +=1 								# Increment counter.
 	return counter
 
 
@@ -35,7 +35,7 @@ def documents_to_vectors(documents):
 
 
 	# Compute inverse document frequency for each triplet in global set of unique triplets.
-	idf_dict = multiprocessing.Manager().dict() 				# Define dictionary that maps each triplet to its idf.
+	idf_dict = multiprocessing.Manager().dict() 	# Define dictionary that maps each triplet to its idf.
 	num_documents = len(documents)
 
 	# compute_idfs: compute idf value for each triplet found in any of the documents and add
