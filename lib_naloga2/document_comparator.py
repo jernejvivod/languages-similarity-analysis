@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 ########################
 # Author: Jernej Vivod #
 ########################
@@ -43,6 +43,6 @@ b = [3, 2, 4];
 # The function takes dictionaries that map triplets found in each document to its tf-idf value.
 def document_cosine_sim(doc_dict1, doc_dict2):
 	dot_product = sum(doc_dict1[key]*doc_dict2.get(key, 0) for key in doc_dict1.keys()) # Compute dot product.
-	norm_1 = sum(doc_dict1[key]**2 for key in doc_dict1.keys()) 				# Compute norms.
-	norm_2 = sum(doc_dict2[key]**2 for key in doc_dict2.keys())
+	norm_1 = math.sqrt(sum(doc_dict1[key]**2 for key in doc_dict1.keys())) 				# Compute norms.
+	norm_2 = math.sqrt(sum(doc_dict2[key]**2 for key in doc_dict2.keys()))
 	return dot_product/(norm_1 * norm_2) # Compute and return cosine similarity.

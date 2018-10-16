@@ -30,13 +30,14 @@ def text_to_triplets_dict(text):
 		u, indices, inverse = np.unique(triplets, axis=1, return_index=True, return_inverse=True)
 		# Compute number of occurences of each triplet in the matrix.
 		num_triplets = histc(inverse, np.array(range(max(inverse) + 1)))
-		probabilities = np.true_divide(num_triplets, len(inverse)) 		# Get probabilities.
+		probabilities = np.true_divide(num_triplets, sum(num_triplets)) 		# Get probabilities.
 
 		# Build dictionary.
 		res_dict = dict()
 		for i in range(u.shape[1]):
 			res_dict[''.join(u[:,i])] = probabilities[i]
 
+		print("sum = {0}".format(sum(res_dict.values())))
 		return res_dict
 
 	# Define list of delimiters to be removed from text.
