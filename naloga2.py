@@ -1,6 +1,5 @@
 import numpy as np
 from clustering import KMclustering
-from lib_naloga2 import document_comparator
 
 ########################
 # Author: Jernej Vivod #
@@ -14,7 +13,7 @@ results_dict = np.load('results_dict.npy').item()
 
 # Create new instance of KMclustering class implementing methods used for permorming the
 # k-medoids clustering algorithm. Initialize with results_dict data.
-km = KMclustering(results_dict);
+km = KMclustering(results_dict)
 
 # Run with 5 medoids.
 km.run(5)

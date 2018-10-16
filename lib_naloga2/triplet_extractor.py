@@ -15,12 +15,12 @@ def text_to_triplets_dict(text):
 
 	# histc: The function counts the number of elements of X that fall in the histogram bins defined by bins.
 	# This is a Python implementation of the MATLAB histc function.
-	def histc(X, bins):
-	    map_to_bins = np.digitize(X, bins) 	# Get indices of the bins to which each value in input array belongs.
-	    res = np.zeros(bins.shape)
-	    for el in map_to_bins:
-	        res[el-1] += 1 					# Increment appropriate bin.
-	    return res
+	def histc(x, bins):
+		map_to_bins = np.digitize(x, bins) 	# Get indices of the bins to which each value in input array belongs.
+		res = np.zeros(bins.shape)
+		for el in map_to_bins:
+			res[el-1] += 1 					# Increment appropriate bin.
+		return res
 
 	# triplets_to_dict: convert numpy matrix where each column represents a triplet to a dictionary that maps
 	# each unique triplet to its relative frequency.

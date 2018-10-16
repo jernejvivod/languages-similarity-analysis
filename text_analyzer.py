@@ -1,8 +1,6 @@
 import os
 import numpy as np
-from lib_naloga2 import triplet_extractor
 from lib_naloga2 import document_vectorizator
-from lib_naloga2 import document_comparator
 
 # This script produces and saves a dictionary that maps each text file name to a dictionary that maps
 # each triplet that appears in the text file to its tf-idf value.
