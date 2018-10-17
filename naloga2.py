@@ -1,6 +1,6 @@
 import numpy as np
-from clustering import KMclustering
-import group_analyzer
+from lib_naloga2 import clustering
+from lib_naloga2 import group_analyzer
 
 ########################
 # Author: Jernej Vivod #
@@ -14,24 +14,32 @@ results_dict = np.load('results_dict.npy').item()
 
 # Create new instance of KMclustering class implementing methods used for permorming the
 # k-medoids clustering algorithm. Initialize with results_dict data.
-km = KMclustering(results_dict)
-NUM_GROUPS = 5
-NUM_ITERATIONS = 1
+km = clustering.KMclustering(results_dict)
 
 decode_OHCHR = np.load('OHCHR_decode.npy').item()
 
+# Define list that will store the groups found in every run of the k-medoids algorithm.
+# Results of each run are represented as a list of list where each sublist represents a group.
 groups_by_iteration = []
+
+# Set number of groups and number of iterations for the k-medoids algorithm.
+NUM_GROUPS = 5
+NUM_ITERATIONS = 1
 
 # Run with 5 medoids.
 for k in range(NUM_ITERATIONS):
+	# Run k-medoids algorithm.
 	km.run(NUM_GROUPS)
 
-	groups = dict((key, [key]) for key in km.associations.values())
+	# Create groups from resulting associations.
+	groups = dict((key, [key]) for key in km.associations.values()) 	# Make sure to add medoid to group.
 	for assoc in km.associations.keys():
-		groups[km.associations[assoc]].append(assoc)
+		groups[km.associations[assoc]].append(assoc) 					# Add node associated with medoid to group.
 
-	groups_by_iteration.append([group for group in groups.values()])
-	group_analyzer.decode_names(groups_by_iteration, decode_OHCHR)
+	groups_by_iteration.append([group for group in groups.values()]) 	# Add groups to list of groups by run.
+	group_analyzer.decode_names(groups_by_iteration, decode_OHCHR) 		# Decode names from OHCHR.
 
+
+# Display results.
 for iteration_groups in groups_by_iteration:
 	group_analyzer.display_groups(iteration_groups)

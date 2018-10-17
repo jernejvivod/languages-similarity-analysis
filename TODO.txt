@@ -1,4 +1,2 @@
-- Take a look at code taken from TIS assignment.
-- Change cost to similarity (variable names).
-- Do not remove delimiters.
 - Add more languages
+- rename results_dict.npy to triplets_dicts.npy

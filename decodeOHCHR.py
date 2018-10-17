@@ -1,5 +1,6 @@
 import numpy as np
 
+# dictionaty that maps OHCHR language codes to language names in English
 res = {
 	'afk' : 'Afrikaans',
 	'cln' : 'Catalan-Valencian-Balear',
@@ -30,4 +31,5 @@ res = {
 	'ukr' : 'Ukrainian'
 }
 
+# Save dictionary to file.
 np.save('OHCHR_decode.npy', res)
