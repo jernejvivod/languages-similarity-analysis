@@ -1,2 +1,3 @@
 - Take a look at code taken from TIS assignment.
-- Change cost to similarity (variable names)
+- Change cost to similarity (variable names).
+- Do not remove delimiters.

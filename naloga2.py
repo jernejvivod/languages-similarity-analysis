@@ -1,5 +1,6 @@
 import numpy as np
 from clustering import KMclustering
+import group_analyzer
 
 ########################
 # Author: Jernej Vivod #
@@ -14,6 +15,23 @@ results_dict = np.load('results_dict.npy').item()
 # Create new instance of KMclustering class implementing methods used for permorming the
 # k-medoids clustering algorithm. Initialize with results_dict data.
 km = KMclustering(results_dict)
+NUM_GROUPS = 5
+NUM_ITERATIONS = 1
+
+decode_OHCHR = np.load('OHCHR_decode.npy').item()
+
+groups_by_iteration = []
 
 # Run with 5 medoids.
-km.run(5)
+for k in range(NUM_ITERATIONS):
+	km.run(NUM_GROUPS)
+
+	groups = dict((key, [key]) for key in km.associations.values())
+	for assoc in km.associations.keys():
+		groups[km.associations[assoc]].append(assoc)
+
+	groups_by_iteration.append([group for group in groups.values()])
+	group_analyzer.decode_names(groups_by_iteration, decode_OHCHR)
+
+for iteration_groups in groups_by_iteration:
+	group_analyzer.display_groups(iteration_groups)
