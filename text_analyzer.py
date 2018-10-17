@@ -17,4 +17,4 @@ documents = set(os.listdir('./data/translations'))
 results_dict = document_vectorizator.documents_to_vectors(documents)
 
 # Save resulting dictionary to file.
-np.save('results_dict.npy', results_dict)
+np.save('triplets_dicts.npy', results_dict)
