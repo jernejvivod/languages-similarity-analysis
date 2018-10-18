@@ -1,8 +1,12 @@
 import random
 from lib_naloga2 import document_comparator
 
-class KMclustering:
+########################
+# Author: Jernej Vivod #
+########################
 
+# KMclustering: class that implements methods used to perform the k-medians clustering algorithm.
+class KMclustering:
 	def __init__(self, document_vectors):
 		# Document vectors represented as a dictionary.
 		self.document_vectors = document_vectors

@@ -1,2 +1,1 @@
 - Add more languages
-- rename results_dict.npy to triplets_dicts.npy

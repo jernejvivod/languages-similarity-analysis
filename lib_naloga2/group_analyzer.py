@@ -1,3 +1,8 @@
+
+########################
+# Author: Jernej Vivod #
+########################
+
 # decode_names: take a list representing groups in each run of the k-medoids algorithm
 def decode_names(groups, decode_dict):
 	for iteration in range(len(groups)): 	# Go over groups fromed in consecutive runs of the k-medoids algorithm.

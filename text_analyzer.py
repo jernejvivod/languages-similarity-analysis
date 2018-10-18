@@ -10,11 +10,12 @@ from lib_naloga2 import document_vectorizator
 ########################
 
 # Parse text files from folder.
-documents = set(os.listdir('./data/translations'))
+DOCS_PATH = './data/translations/'
+documents = set(os.listdir(DOCS_PATH))
 
 # Get dictionary where name of document file is mapped to dictionary that maps triplets
 # that appear in it to their tf-idf values.
-results_dict = document_vectorizator.documents_to_vectors(documents)
+results_dict = document_vectorizator.documents_to_vectors(documents, DOCS_PATH)
 
 # Save resulting dictionary to file.
 np.save('triplets_dicts.npy', results_dict)

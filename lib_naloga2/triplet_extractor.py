@@ -36,8 +36,6 @@ def text_to_triplets_dict(text):
 		res_dict = dict()
 		for i in range(u.shape[1]):
 			res_dict[''.join(u[:,i])] = probabilities[i]
-
-		print("sum = {0}".format(sum(res_dict.values())))
 		return res_dict
 
 	# Define list of delimiters to be removed from text.

@@ -1,5 +1,9 @@
 import numpy as np
 
+########################
+# Author: Jernej Vivod #
+########################
+
 # dictionaty that maps OHCHR language codes to language names in English
 res = {
 	'afk' : 'Afrikaans',
