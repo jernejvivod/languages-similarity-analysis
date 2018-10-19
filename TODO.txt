@@ -1,2 +1,1 @@
-- Add 5 more languages
-- Add news website for 20 languages, 4 from each main group.
+- Add news websites headlines for languages. Continue with portuguese.

@@ -34,10 +34,10 @@ while True:
 			for document in documents: 						# Concatenate to base string.
 				document_text = open(DOC_PATH + document, encoding="utf8").read()
 				news_concat += document_text
-				SAVE_PATH = './data/news_headlines/concatenated/' + lang  # Save concatenations to document.
+				SAVE_PATH = './data/concatenated-news-headlines/' + lang  # Save concatenations to document.
 				with open(SAVE_PATH, 'w') as f:
 					f.write(news_concat)
-		DOCS_PATH = './data/news_headlines/concatenated/'
+		DOCS_PATH = './data/concatenated-news-headlines/'
 		documents = set(os.listdir(DOCS_PATH))
 		# Get dictionary where name of document file is mapped to dictionary that maps triplets
 		# that appear in it to their tf-idf values.
