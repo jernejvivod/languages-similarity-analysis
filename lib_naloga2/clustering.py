@@ -58,7 +58,6 @@ class KMclustering:
 		self.initialize_medoids(num_medoids) 	# Initialize medoids by random sampling from pool.
 		associations = self.associate_with_medoids(self.medoids) 	# Associate non-medoid vectors with their medoids.
 		arrangement_cumsim = self.compute_arrangement_cumsim(associations) 	# Compute cummulative similarity of current arrangement.
-		print("initial cummulative similarity: {0}".format(arrangement_cumsim)) 		
 		improvement = True 											# Loop while cummulative similarity is improving.
 		while improvement:
 			improvement = False
@@ -70,7 +69,6 @@ class KMclustering:
 					associations_alt = self.associate_with_medoids(medoids_alt) 	# Associate non-medoids to medoids in this new arrangement.
 					new_cumsim = self.compute_arrangement_cumsim(associations_alt) 	# Compute new similarity coefficient sum.
 					if new_cumsim > arrangement_cumsim: 							# If similarity coefficient sum is greate, keep arrangement. 
-						print('higher cummulative similarity: {0}'.format(new_cumsim))
 						arrangement_cumsim = new_cumsim
 						self.medoids = medoids_alt
 						associations = associations_alt

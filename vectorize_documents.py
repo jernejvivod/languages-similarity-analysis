@@ -1,28 +1,34 @@
 import os
 import numpy as np
+import sys
 from lib_naloga2 import document_vectorizator
 
 # This script produces and saves a dictionary that maps each text file name to a dictionary that maps
-# each triplet that appears in the text file to its tf-idf value.
+# each triplet that appears in the text file to its tf-idf value (maps each document to its vector).
 
 ########################
 # Author: Jernej Vivod #
 ########################
+
+# Load OHCHR code mapping dictionary.
+decode_OHCHR = np.load('./lib_naloga2/OHCHR_decode.npy').item()
 
 # Prompt user whether to convert UDHR translations or news headliens to vectors represented as dictionaries.
 while True:
 	mode = input('create vectors for Universal declaration of human rights translations or news headlines? (u/n): ')
 	# Convert UDHR translations to vectors (represented as dictionaries).
 	if mode == 'u':
-		DOCS_PATH = './data/translations/'
+		DOCS_PATH = './data/UHDHR_translations/'
 		documents = set(os.listdir(DOCS_PATH))
 		# Get dictionary where name of document file is mapped to dictionary that maps triplets
 		# that appear in it to their tf-idf values.
 		results_dict = document_vectorizator.documents_to_vectors(documents, DOCS_PATH)
+		for key in list(results_dict.keys()):
+			results_dict[decode_OHCHR[key[:-4]]] = results_dict.pop(key)
 
 		# Save resulting dictionary to file.
 		np.save('triplets_dicts.npy', results_dict)
-		break;
+		sys.exit(0)
 	# for each language, concatenate text from news site headlines into single document and make into vector (represented as a dict).
 	elif mode == 'n':
 		DOCS_PATH = './data/news_headlines/' 		# path to folder containing the news sites

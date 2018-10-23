@@ -27,6 +27,7 @@ def documents_to_vectors(documents, documents_path, compute_idfs = True):
 
 	# Go over documents in list of document names.
 	for document in documents:
+		print("Vectorizing '{0}'...".format(document))
 		document_text = open(documents_path + document, encoding="utf8").read() 	# Parse document
 		# Get dictionary that maps unique triplets to their relative frequencies
 		triplets_dict = triplet_extractor.text_to_triplets_dict(document_text)
@@ -34,6 +35,7 @@ def documents_to_vectors(documents, documents_path, compute_idfs = True):
 		results_dict[document] = triplets_dict
 
 	if compute_idfs:
+		print('Computing idf values...')
 		# Compute inverse document frequency for each triplet in global set of unique triplets.
 		idf_dict = multiprocessing.Manager().dict() 	# Define dictionary that maps each triplet to its idf.
 		num_documents = len(documents)

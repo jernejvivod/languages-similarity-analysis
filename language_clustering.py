@@ -16,8 +16,6 @@ results_dict = np.load('triplets_dicts.npy').item()
 # k-medoids clustering algorithm. Initialize with results_dict data.
 km = clustering.KMclustering(results_dict)
 
-decode_OHCHR = np.load('OHCHR_decode.npy').item()
-
 # Define list that will store the groups found in every run of the k-medoids algorithm.
 # Results of each run are represented as a list of list where each sublist represents a group.
 groups_by_iteration = []
@@ -28,6 +26,7 @@ NUM_ITERATIONS = 10
 
 # Run with 5 medoids.
 for k in range(NUM_ITERATIONS):
+	print('Computing iteration {0}...'.format(k+1))
 	# Run k-medoids algorithm.
 	km.run(NUM_GROUPS)
 
@@ -39,9 +38,9 @@ for k in range(NUM_ITERATIONS):
 	groups_by_iteration.append([group for group in groups.values()]) 	# Add groups to list of groups by run.
 
 
-group_analyzer.decode_names(groups_by_iteration, decode_OHCHR) 		# Decode names from OHCHR.
-
-
 # Display results.
+iteration_index = 1
 for iteration_groups in groups_by_iteration:
+	print("\n**************************** Groups in iteration {0} ****************************".format(iteration_index))
 	group_analyzer.display_groups(iteration_groups)
+	iteration_index += 1

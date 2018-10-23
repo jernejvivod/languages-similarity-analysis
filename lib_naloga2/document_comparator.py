@@ -59,7 +59,7 @@ def doc_dicts_to_vects(doc_dict1, doc_dict2):
 	# Allocate memory for vectors
 	vect1 = np.empty(len(triplets_all), dtype=float) 
 	vect2 = np.empty(len(triplets_all), dtype=float)
- 	# Go over enumerated triplets.
+	# Go over enumerated triplets.
 	for idx, triplet in enumerate(triplets_all):
 		if triplet in doc_dict1: 	# If triplet found in first document, add its tf-id value vector.
 			vect1[idx] = doc_dict1[triplet]
@@ -69,7 +69,7 @@ def doc_dicts_to_vects(doc_dict1, doc_dict2):
 			vect2[idx] = doc_dict2[triplet]
 		else:			
 			vect2[idx] = 0
- 	return vect1, vect2 			# Return created vectors in order.
+	return vect1, vect2 			# Return created vectors in order.
 
 # document_cosine_sim: compute cosine similarity between two documents using cosine similarity.
 # The function takes dictionaries that map triplets found in each document to its tf-idf value.

@@ -1,1 +1,2 @@
+- Add short instructions at the begining of each script in main folder.
 - Add news websites headlines for languages. Continue with portuguese.

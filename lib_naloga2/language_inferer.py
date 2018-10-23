@@ -10,9 +10,8 @@ from matplotlib import pyplot as plt
 class LanguageAnalyzer:
 	# Initialize with dictionary containing vectors of reference documents and with dictionary
 	# for decoding the OHCHR language codes to English names.
-	def __init__(self, reference_triplets_dicts, decode_OHCHR):
+	def __init__(self, reference_triplets_dicts):
 		self.reference_triplets_dicts = reference_triplets_dicts
-		self.decode_OHCHR = decode_OHCHR
 
 	# document_to_triplets_dict: convert document with name document_name and
 	# documents_path as the path to the folder in which the document is located.
@@ -28,7 +27,7 @@ class LanguageAnalyzer:
 		similarities = dict()
 		for reference in self.reference_triplets_dicts.keys(): 	# Go over reference documents.
 			sim = document_comparator.document_cosine_sim(self.reference_triplets_dicts[reference], document_triplets_dict)
-			similarities[sim] = self.decode_OHCHR[reference[:-4]] 	# Add result to dictionary.
+			similarities[sim] = reference 	# Add result to dictionary.
 		return similarities
 
 	# display_first_k: display the first k most likely languages for document with its similarity dictionary
@@ -64,8 +63,7 @@ class LanguageAnalyzer:
 if __name__ == "__main__":
 	# Load reference documents dictionary and dictionary for decoding OHCHR language codes.
 	references_dicts = np.load('triplets_dicts.npy').item()
-	decode_OHCHR = np.load('OHCHR_decode.npy').item()
 
 	# Create new instance of LanguageAnalyzer class.
-	la = LanguageAnalyzer(references_dicts, decode_OHCHR)
+	la = LanguageAnalyzer(references_dicts)
 	la.run(3, 'german.txt')
