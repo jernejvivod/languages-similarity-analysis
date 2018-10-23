@@ -6,6 +6,8 @@ from lib_naloga2 import document_comparator
 # Author: Jernej Vivod #
 ########################
 
+# Analize vectors obtained from text documents using hierarchical clustering.
+
 # Load data dictionary that maps document names to their vectors.
 data = np.load('triplets_dicts.npy').item()
 # Initialize HierarchicalClustering distance.
