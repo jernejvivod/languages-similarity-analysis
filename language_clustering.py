@@ -24,7 +24,7 @@ groups_by_iteration = []
 
 # Set number of groups and number of iterations for the k-medoids algorithm.
 NUM_GROUPS = 5
-NUM_ITERATIONS = 1
+NUM_ITERATIONS = 10
 
 # Run with 5 medoids.
 for k in range(NUM_ITERATIONS):
@@ -37,7 +37,9 @@ for k in range(NUM_ITERATIONS):
 		groups[km.associations[assoc]].append(assoc) 					# Add node associated with medoid to group.
 
 	groups_by_iteration.append([group for group in groups.values()]) 	# Add groups to list of groups by run.
-	group_analyzer.decode_names(groups_by_iteration, decode_OHCHR) 		# Decode names from OHCHR.
+
+
+group_analyzer.decode_names(groups_by_iteration, decode_OHCHR) 		# Decode names from OHCHR.
 
 
 # Display results.

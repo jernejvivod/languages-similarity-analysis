@@ -16,11 +16,18 @@ class KMclustering:
 		# See run method.
 		self.associations = dict()
 		self.arrangement_cumsim = 0
+		self.sim_matrix = dict()  # Dictionary that maps each pair of document vectors to their similarity.
 
 	# initialize_medoids: select medoids from document vectors by sampling from pool.
 	def initialize_medoids(self, num_medoids):
 		vectors_set = set(self.document_vectors.keys()) 			# Create a pool.
 		self.medoids = set(random.sample(vectors_set, num_medoids)) # Sample.
+		# Compute distances of each vector to every other vector.
+		for vect in self.document_vectors:  # Go over pairs of vectors.
+			for other_vect in self.document_vectors:
+				if vect != other_vect: 		# Do not compare vectors with themselves.
+					sim = document_comparator.document_cosine_sim(self.document_vectors[vect], self.document_vectors[other_vect])
+					self.sim_matrix[(vect, other_vect)] = sim  # Add distance between vectors to similarity matrix (represented as a dict).
 
 	# associate_with_medoids: associate ever non-medoid vector with closest medoid.
 	def associate_with_medoids(self, medoids):
@@ -29,9 +36,9 @@ class KMclustering:
 			min_sim = -1
 			closest_medoid = None
 			for medoid in medoids: 														# Find closest medoid.
-				dist = document_comparator.document_cosine_sim(self.document_vectors[key], self.document_vectors[medoid])
-				if dist > min_sim:
-					min_sim = dist
+				sim = self.sim_matrix[key, medoid]
+				if sim > min_sim:
+					min_sim = sim
 					closest_medoid = medoid
 			associations[key] = closest_medoid
 		return associations
@@ -40,8 +47,9 @@ class KMclustering:
 	def compute_arrangement_cumsim(self, associations):
 		cumsim = 0
 		for vect in associations.keys(): # Go over non-medoid vectors and add similarity coefficient to total sum.
-			cumsim += document_comparator.document_cosine_sim(self.document_vectors[vect], self.document_vectors[associations[vect]])
+			cumsim += self.sim_matrix[vect, associations[vect]]
 		return cumsim
+
 
 	# run: perform k-medoid clustering. This method computes values for two attributes of invoking instance. associations is a dictionary
 	# that maps names of vectors to names of their associated medoids. arrangement_cumsum is the total sum of the similarity coefficients
