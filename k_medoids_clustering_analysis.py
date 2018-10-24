@@ -22,16 +22,24 @@ km = clustering.KMclustering(results_dict)
 # Results of each run are represented as a list of list where each sublist represents a group.
 groups_by_iteration = []
 
-# Set number of groups and number of iterations for the k-medoids algorithm.
-NUM_GROUPS = 5
-NUM_ITERATIONS = 10
+# Set number of groups and number of iterations for the k-medoids algorithm (Prompt user).
+while True:
+	num_iterations_in = input('Enter number of iterations of the k-medoids algorithm to compute: ')
+	if num_iterations_in.isnumeric():
+		NUM_ITERATIONS = int(num_iterations_in)
+		break
 
-# Run with 5 medoids.
+while True:
+	num_groups_in = input('Enter number of groups to use: ')
+	if num_groups_in.isnumeric():
+		NUM_GROUPS = int(num_groups_in)
+		break;
+
+# Run k medoids algorithm
 for k in range(NUM_ITERATIONS):
 	print('Computing iteration {0}...'.format(k+1))
 	# Run k-medoids algorithm.
 	km.run(NUM_GROUPS)
-
 	# Create groups from resulting associations.
 	groups = dict((key, [key]) for key in km.associations.values()) 	# Make sure to add medoid to group.
 	for assoc in km.associations.keys():
