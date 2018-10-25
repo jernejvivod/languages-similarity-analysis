@@ -20,14 +20,29 @@ while True:
 	if mode == 'u':
 		while True:
 			compute_idf = input('Use inverse document frequencies in vector computations (might be slow for large ammounts of text)? (y/n): ')
-			DOCS_PATH = './data/UHDHR_translations/'
+			DOCS_PATH = './data/UHDHR_translations_all_alt/'
 			documents = set(os.listdir(DOCS_PATH))
 			# Get dictionary where name of document file is mapped to dictionary that maps triplets
 			# that appear in it to their tf-idf values.
 			if compute_idf == 'y' or compute_idf == 'n':
 				results_dict = document_vectorizator.documents_to_vectors(documents, DOCS_PATH, True if compute_idf == 'y' else False)
-				for key in list(results_dict.keys()):
-					results_dict[decode_OHCHR[key[:-4]]] = results_dict.pop(key)
+				# Prompt user wheter to decode OHCHR language codes.
+				while True:
+					decode = input('Decode OHCHR language codes? y/n: ')
+					if decode == 'y':
+						for key in list(results_dict.keys()):
+							# If key found in decoding dictionary, decode. Else remove from dictionary.
+							if key[:-4] in decode_OHCHR.keys():
+								results_dict[decode_OHCHR[key[:-4]]] = results_dict.pop(key)
+							else:
+								del results_dict[key]
+						break;
+					elif decode == 'n':
+						for key in list(results_dict.keys()):
+							results_dict[key[:-4]] = results_dict.pop(key)
+						break;
+					else:
+						pass
 
 				# Save resulting dictionary to file.
 				np.save('triplets_dicts.npy', results_dict)

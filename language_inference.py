@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from pathlib import Path
 from lib_naloga2 import language_inferer
 
@@ -14,6 +15,12 @@ references_dicts = np.load('triplets_dicts.npy').item()
 if __name__ == "__main__":
 	# Prompt user for document name. Keep prompting until entered document name is valid.
 	while True:
+		print('Documents in \'./data/language_analysis_data\':')
+		print("##################")
+		for f in os.listdir(os.getcwd() + '/data/language_analysis_data'):
+			print(f)
+		print("##################\n")
+
 		document_name = input('Enter name of document to analyze (make sure the document is located in ./data/language_analysis_data): ')
 		document_full_path = Path("./data/language_analysis_data/" + document_name)
 
