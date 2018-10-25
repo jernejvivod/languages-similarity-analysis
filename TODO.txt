@@ -1,2 +1,0 @@
-- Add news websites headlines for languages. Continue with Turkish.
-- promp user whether to use idf in document vectorization (massive speedup if not)
