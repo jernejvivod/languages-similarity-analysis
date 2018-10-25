@@ -1,5 +1,6 @@
 import math
 from lib_naloga2 import triplet_extractor
+from unidecode import unidecode
 from joblib import Parallel, delayed
 import multiprocessing
 
@@ -28,7 +29,7 @@ def documents_to_vectors(documents, documents_path, compute_idfs = True):
 	# Go over documents in list of document names.
 	for document in documents:
 		print("Vectorizing '{0}'...".format(document))
-		document_text = open(documents_path + document, encoding="utf8").read() 	# Parse document
+		document_text = unidecode(open(documents_path + document, encoding="utf8").read()) 	# Parse document
 		# Get dictionary that maps unique triplets to their relative frequencies
 		triplets_dict = triplet_extractor.text_to_triplets_dict(document_text)
 		triplets_global |= set(list(triplets_dict.keys())) 			# Add found unique triplets to global set of unique triplets
