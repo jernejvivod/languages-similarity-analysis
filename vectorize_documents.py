@@ -19,8 +19,8 @@ while True:
 	# Convert UDHR translations to vectors (represented as dictionaries).
 	if mode == 'u':
 		while True:
-			compute_idf = input('Use inverse document frequencies in vector computations (might be slow for large ammounts of text)? (y/n): ')
-			DOCS_PATH = './data/UHDHR_translations_all_alt/'
+			compute_idf = input('Use inverse document frequencies in vector computations (might be slow for large amounts of text)? (y/n): ')
+			DOCS_PATH = './data/UHDHR_translations_alt/'
 			documents = set(os.listdir(DOCS_PATH))
 			# Get dictionary where name of document file is mapped to dictionary that maps triplets
 			# that appear in it to their tf-idf values.
@@ -30,6 +30,7 @@ while True:
 				while True:
 					decode = input('Decode OHCHR language codes? y/n: ')
 					if decode == 'y':
+						print('Decoding OHCHR language codes...')
 						for key in list(results_dict.keys()):
 							# If key found in decoding dictionary, decode. Else remove from dictionary.
 							if key[:-4] in decode_OHCHR.keys():

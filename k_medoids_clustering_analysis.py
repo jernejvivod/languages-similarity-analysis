@@ -41,6 +41,8 @@ while True:
 # Make a list of random visually distinguishable RGB values for use with silhouette plots.
 silhouette_colors = color_list_maker.make_list(NUM_GROUPS)
 
+print('Performing {0} iterations of k-medoids algorithm on {1} documents...'.format(NUM_ITERATIONS, len(results_dict.keys())))
+
 # Run k medoids algorithm
 for k in range(NUM_ITERATIONS):
 	print('Computing iteration {0}...'.format(k+1))
