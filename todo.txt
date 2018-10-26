@@ -1,1 +1,1 @@
-Add code in get_OHCHR_decoding_dict.py to report.
+Add more languages to language inference testing folder (Should contain 10).
