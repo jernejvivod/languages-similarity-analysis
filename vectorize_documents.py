@@ -13,6 +13,8 @@ from lib_naloga2 import document_vectorizator
 # Load OHCHR code mapping dictionary.
 decode_OHCHR = np.load('./lib_naloga2/OHCHR_decode.npy').item()
 
+langs = ''
+
 # Prompt user whether to convert UDHR translations or news headliens to vectors represented as dictionaries.
 while True:
 	mode = input('create vectors for Universal declaration of human rights translations or news headlines? (u/n): ')
@@ -20,7 +22,7 @@ while True:
 	if mode == 'u':
 		while True:
 			compute_idf = input('Use inverse document frequencies in vector computations (might be slow for large amounts of text)? (y/n): ')
-			DOCS_PATH = './data/UHDHR_translations_alt/'
+			DOCS_PATH = './data/UHDHR_translations/'
 			documents = set(os.listdir(DOCS_PATH))
 			# Get dictionary where name of document file is mapped to dictionary that maps triplets
 			# that appear in it to their tf-idf values.
@@ -35,6 +37,9 @@ while True:
 							# If key found in decoding dictionary, decode. Else remove from dictionary.
 							if key[:-4] in decode_OHCHR.keys():
 								results_dict[decode_OHCHR[key[:-4]]] = results_dict.pop(key)
+
+								langs += ', ' + decode_OHCHR[key[:-4]]
+
 							else:
 								del results_dict[key]
 						break;

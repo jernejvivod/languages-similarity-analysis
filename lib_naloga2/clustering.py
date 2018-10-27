@@ -26,7 +26,7 @@ class KMclustering:
 		vectors_set = set(self.document_vectors.keys()) 			# Create a pool.
 		self.medoids = set(random.sample(vectors_set, num_medoids)) # Sample.
 		# Compute distances of each vector to every other vector.
-		for vect in self.document_vectors:  # Go over pairs of vectors.
+		for vect in self.document_vectors:  # Go over pairs of vectors.Najbrž ni normalno, da zadeva pri vsaki inicializaciji medoidov skonvergira v isto stvar, da imam potem vse vrednosti silhuet 
 			for other_vect in self.document_vectors:
 				if vect != other_vect: 		# Do not compare vectors with themselves.
 					sim = document_comparator.document_cosine_sim(self.document_vectors[vect], self.document_vectors[other_vect])
@@ -107,7 +107,7 @@ class KMclustering:
 		plt.cla()
 
 		# Get members of each cluster as a list of lists.
-		groups = dict((key, [key]) for key in self.associations.values()) 	# Make sure to add medoid to group.
+		groups = dict((key, [key]) for key in self.medoids) 	# Make sure to add medoid to group.
 		for assoc in self.associations.keys():
 			groups[self.associations[assoc]].append(assoc) 				# Add node associated with medoid to group.
 		clusters = list(groups.values())
@@ -156,7 +156,7 @@ class KMclustering:
 	# run: perform k-medoid clustering. This method computes values for two attributes of invoking instance. associations is a dictionary
 	# that maps names of vectors to names of their associated medoids. arrangement_cumsum is the total sum of the similarity coefficients
 	# between vectors and their medoids in the given arrangement.
-	def run(self, num_medoids):
+	def run_exhaustive(self, num_medoids):
 		self.initialize_medoids(num_medoids) 	# Initialize medoids by random sampling from pool.
 		associations = self.associate_with_medoids(self.medoids) 	# Associate non-medoid vectors with their medoids.
 		arrangement_cumsim = self.compute_arrangement_cumsim(associations) 	# Compute cummulative similarity of current arrangement.
@@ -179,6 +179,36 @@ class KMclustering:
 				else: 			# If inner loop DID NOT BREAK, continue with next iteration of outer loop.
 					continue
 				break 			# If inner loop DID BREAK, break outer loop (repeat computations for new arrangement).
+		self.associations = associations 			# Assign attributes.
+		self.arrangement_cumsim = arrangement_cumsim  # Assign commulative value of arrangement similarities.
+		self.get_silhouettes() 						  # Compute arrangement silhouettes for each document.
+		self.clustering_silhouette = sum(self.silhouettes.values())/len(self.silhouettes.values())  # Compute average silhouette
+
+
+
+	# run: perform k-medoid clustering. This method computes values for two attributes of invoking instance. associations is a dictionary
+	# that maps names of vectors to names of their associated medoids. arrangement_cumsum is the total sum of the similarity coefficients
+	# between vectors and their medoids in the given arrangement.
+	def run_greedy(self, num_medoids):
+		self.initialize_medoids(num_medoids) 	# Initialize medoids by random sampling from pool.
+		associations = self.associate_with_medoids(self.medoids) 	# Associate non-medoid vectors with their medoids.
+		arrangement_cumsim = self.compute_arrangement_cumsim(associations) 	# Compute cummulative similarity of current arrangement.
+		for medoid in self.medoids: 							# For each medoid.
+			for non_medoid in associations.keys(): 				# Go over each non-medoid.
+				medoids_alt = self.medoids.copy() 				# Create alternative set of medoids with current medoid and non_medoid swapped.
+				medoids_alt.remove(medoid)
+				medoids_alt.add(non_medoid)
+				associations_alt = self.associate_with_medoids(medoids_alt) 	# Associate non-medoids to medoids in this new arrangement.
+				new_cumsim = self.compute_arrangement_cumsim(associations_alt) 	# Compute new similarity coefficient sum.
+				if new_cumsim > arrangement_cumsim: 							# If similarity coefficient sum is greate, keep arrangement. 
+					arrangement_cumsim = new_cumsim
+					self.medoids = medoids_alt
+					associations = associations_alt
+					improvement = True
+					break
+			else: 			# If inner loop DID NOT BREAK, continue with next iteration of outer loop.
+				continue
+			break 			# If inner loop DID BREAK, break outer loop (repeat computations for new arrangement).
 		self.associations = associations 			# Assign attributes.
 		self.arrangement_cumsim = arrangement_cumsim  # Assign commulative value of arrangement similarities.
 		self.get_silhouettes() 						  # Compute arrangement silhouettes for each document.

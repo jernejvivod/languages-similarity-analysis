@@ -1,1 +1,0 @@
-Add more languages to language inference testing folder (Should contain 10).

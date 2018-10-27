@@ -41,19 +41,31 @@ while True:
 # Make a list of random visually distinguishable RGB values for use with silhouette plots.
 silhouette_colors = color_list_maker.make_list(NUM_GROUPS)
 
+# Prompt user to choose type of search
+while True:
+	variant_search = input('Perform exhaustive or greedy search? (e/g): ')
+	if variant_search == 'e' or variant_search == 'g':
+		break;
+	else:
+		pass
+
 print('Performing {0} iterations of k-medoids algorithm on {1} documents...'.format(NUM_ITERATIONS, len(results_dict.keys())))
 
 # Run k medoids algorithm
 for k in range(NUM_ITERATIONS):
 	print('Computing iteration {0}...'.format(k+1))
 	# Run k-medoids algorithm.
-	km.run(NUM_GROUPS)
+	if variant_search == 'e':
+		km.run_exhaustive(NUM_GROUPS)
+	else:
+		km.run_greedy(NUM_GROUPS)
 	# Plot iteration silhouette plot.
+	print(km.clustering_silhouette)
 	km.plot_silhouettes(silhouette_colors)
 	plt.title('Silhouette Plot for {0}. Iteration'.format(k+1))
 	plt.pause(0.02)
 	# Create groups from resulting associations.
-	groups = dict((key, [key]) for key in km.associations.values()) 	# Make sure to add medoid to group.
+	groups = dict((key, [key]) for key in km.medoids) 	# Make sure to add medoid to group.
 	for assoc in km.associations.keys():
 		groups[km.associations[assoc]].append(assoc) 					# Add node associated with medoid to group.
 
@@ -73,5 +85,5 @@ plt.show()
 s = plt.bar(list(range(1, len(cluster_silhouettes_by_iteration) + 1)), cluster_silhouettes_by_iteration, color = 'skyblue')
 plt.xlabel('Iteration index')
 plt.ylabel('Clustering silhouette value')
-plt.title('Clustering Silhouette Value by Iteration')
+plt.title('Clustering Silhouette Value by Iteration (Greedy search)')
 plt.show()
