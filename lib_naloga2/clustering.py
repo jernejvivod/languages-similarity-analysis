@@ -204,7 +204,6 @@ class KMclustering:
 					arrangement_cumsim = new_cumsim
 					self.medoids = medoids_alt
 					associations = associations_alt
-					improvement = True
 					break
 			else: 			# If inner loop DID NOT BREAK, continue with next iteration of outer loop.
 				continue
